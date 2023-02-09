@@ -1,39 +1,21 @@
 import re
 
-def drop_teg(teg, data):
-    """
-    params: teg = str, data = str
-    enter <, >, / without symbols in the tag parameter
-    """
-
-    match = f"<{teg}.*</{teg}>"
-    indexs = re.search(match, data)
-    try:
-        indexs = list(indexs.span())
-        return data.replace(data[indexs[0] : indexs[1]], "")
-    except:
-        return data
-
-
 def drop_tegs(tegs, data):
-    """
-    params: tegs = list, data = str
-    enter <, >, / without symbols in the tag parameter
-    """
-    for teg in tegs:
-        match = f"<{teg}.*</{teg}>"
-        indexs = re.search(match, data)
-        try:
-            indexs = list(indexs.span())
-            data = data.replace(data[indexs[0] : indexs[1]], "")
-        
-        except:
-            continue
+
+    index = 0
+    while True:
+        if index != len(tegs):
+            teg = tegs[index]
+            match = f"<{teg}.*</{teg}>"
+            loc = re.search(match, data)
+            if loc:
+                loc = list(loc.span())
+                data = data.replace(data[loc[0] : loc[1]], "")
+            else:
+                index+=1
+        else:
+            break
     return data
-
-
-# data = "The ozone layer absorbs 97 to 99 percent of the Sun's medium-frequency ultraviolet light (from about 200&nbsp;[[nanometer|nm]] to 315&nbsp;nm [[wavelength]]), which otherwise would potentially damage exposed life forms near the surface.<ref name="NASA">{{cite web|url=http://www.nas.nasa.gov/About/Education/Ozone/ozonelayer.html |title=Ozone layer|access-date=2007-09-23}}</ref>_______"
-# print(drop_teg("ref", data))
 
 
 def drop_ab(abdict, data):
@@ -61,5 +43,7 @@ def drop_ab(abdict, data):
 
 
 
-# def replaces(replaces, data):
-#     for rep in replaces:
+def drops(elements, put, data):
+    for rep in elements:
+        data = data.replace(rep, put)
+    return data
