@@ -21,7 +21,6 @@ It includes data cleaning functions!
 How does it work?
 
 This program consis of 7 parts:
-
 1.get_content function gets conten from wikipedia wth wiki API;
 2.merge_content function cleaning data;
 3.tokinize function split data into list;
